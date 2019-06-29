@@ -3,7 +3,7 @@
 
 Trata-se de uma aplicação que efetua um simples benchmark entre o RabbitMQ e Kafka. 
 
-Para subir a infra é necessãrio docker e docker-compose. Verificar README.md localizado na pasta infra/ para ver detalhes de como subir a infraestrutura
+Para subir a infra é necessário docker e docker-compose. Verificar README.md localizado na pasta infra/ para ver detalhes de como subir a infraestrutura
 
 Para executar o programa execute o seguinte:
 
