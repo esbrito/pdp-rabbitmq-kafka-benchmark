@@ -1,5 +1,6 @@
 package com.inf.pdp.esbrito.pdp;
 
+import com.inf.pdp.esbrito.pdp.configuration.AllConsumedLatch;
 import com.inf.pdp.esbrito.pdp.producer.KafkaProducer;
 import com.inf.pdp.esbrito.pdp.producer.Producer;
 import com.inf.pdp.esbrito.pdp.producer.RabbitMQProducer;
@@ -20,6 +21,8 @@ public class PdpApplication {
 	@Bean
 	public CommandLineRunner runner(ApplicationContext ctx) {
 		return args -> {
+
+
 			Producer producer = null;
 
 			String broker = args != null && args.length > 0 ? args[0] : "kafka";
@@ -34,12 +37,24 @@ public class PdpApplication {
 				System.out.println("Invalid broker! Use `rabbit` or `kafka`");
 				System.exit(1);
 			}
+
+			AllConsumedLatch latch = ctx.getBean(AllConsumedLatch.class);
+			// Initializes latch with the number of total messages to be consumed
+			latch.init(totalMessages);
 			int messages = 0;
+			// Initializes time counter to see total time from producing to consume all messages
+			Long startTime = System.nanoTime();
 			while (messages < totalMessages) {
 				Thread.sleep(10);
 				producer.produce(byteSize);
 				messages++;
 			}
+
+			// Awaits every message to be consumed
+			latch.await();
+			Long endTime = System.nanoTime();
+			System.out.println("Total time " + (endTime - startTime)/1000000.0 + " ms");
+			System.exit(0);
 		};
 	}
 

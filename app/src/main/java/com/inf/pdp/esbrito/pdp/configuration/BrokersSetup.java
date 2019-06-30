@@ -34,32 +34,37 @@ public class BrokersSetup {
 
     @Bean
     public RabbitMQConsumer rabbitMQConsumer1() {
-        return new RabbitMQConsumer(parser);
+        return new RabbitMQConsumer(parser, latch());
     }
 
     @Bean
     public RabbitMQConsumer rabbitMQConsumer2() {
-        return new RabbitMQConsumer(parser);
+        return new RabbitMQConsumer(parser, latch());
     }
 
     @Bean
     public RabbitMQConsumer rabbitMQConsumer3() {
-        return new RabbitMQConsumer(parser);
+        return new RabbitMQConsumer(parser, latch());
     }
 
     @Bean
     public KafkaConsumer kafkaConsumer1() {
-        return new KafkaConsumer(parser);
+        return new KafkaConsumer(parser, latch());
     }
 
     @Bean
     public KafkaConsumer kafkaConsumer2() {
-        return new KafkaConsumer(parser);
+        return new KafkaConsumer(parser, latch());
     }
 
     @Bean
     public KafkaConsumer kafkaConsumer3() {
-        return new KafkaConsumer(parser);
+        return new KafkaConsumer(parser, latch());
+    }
+
+    @Bean
+    public AllConsumedLatch latch() {
+        return new AllConsumedLatch();
     }
 
 

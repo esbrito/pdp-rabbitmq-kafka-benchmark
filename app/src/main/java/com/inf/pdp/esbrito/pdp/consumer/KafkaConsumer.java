@@ -1,12 +1,13 @@
 package com.inf.pdp.esbrito.pdp.consumer;
 
 import com.google.gson.Gson;
+import com.inf.pdp.esbrito.pdp.configuration.AllConsumedLatch;
 import org.springframework.kafka.annotation.KafkaListener;
 
 public class KafkaConsumer extends BasicConsumer {
 
-    public KafkaConsumer(Gson parser) {
-        super(parser, "Kafka");
+    public KafkaConsumer(Gson parser, AllConsumedLatch latch) {
+        super(parser, latch, "Kafka");
     }
 
     @Override
