@@ -1,21 +1,19 @@
 package com.inf.pdp.esbrito.pdp.consumer;
 
+import com.google.gson.Gson;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
 
-@Component
-public class RabbitMQConsumer implements Consumer {
 
-    private long totalDelay;
-    private long totalMessages;
+public class RabbitMQConsumer extends BasicConsumer  {
 
-    @Override
-    @RabbitListener(queues="${pdp.rabbitmq.queue}")
-    public void consume(String msg) {
-        long delay = System.nanoTime() - Long.parseLong(msg);
-        System.out.println("Delay da mensagem eh de " + delay/1000.0 + " ms (RabbitMQ)");
-        totalDelay = totalDelay + delay;
-        totalMessages++;
-        System.out.println("Delay medio eh de " + (totalDelay/totalMessages)/1000.0 + " ms (RabbitMQ)" );
+    public RabbitMQConsumer(Gson parser) {
+        super(parser, "RabbitMQ");
     }
+
+    @RabbitListener(queues="${pdp.rabbitmq.queue}")
+    @Override
+    public void consume(String msg) {
+        process(msg);
+    }
+
 }

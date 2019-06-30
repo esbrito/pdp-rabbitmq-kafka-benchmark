@@ -1,5 +1,5 @@
 package com.inf.pdp.esbrito.pdp.producer;
 
 public interface Producer {
-    void produce();
+    void produce(int messageByteSize);
 }

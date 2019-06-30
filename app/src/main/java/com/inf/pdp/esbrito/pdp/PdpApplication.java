@@ -22,7 +22,9 @@ public class PdpApplication {
 		return args -> {
 			Producer producer = null;
 
-			String broker = args != null ? args[0] : "kafka";
+			String broker = args != null && args.length > 0 ? args[0] : "kafka";
+			int byteSize = args != null && args.length > 1 ? Integer.valueOf(args[1]) : 1024;
+			int totalMessages = args != null && args.length > 2 ? Integer.valueOf(args[2]) : 100000;
 			System.out.println(broker);
 			if (broker.equalsIgnoreCase("rabbit")) {
 				producer = ctx.getBean(RabbitMQProducer.class);
@@ -32,10 +34,13 @@ public class PdpApplication {
 				System.out.println("Invalid broker! Use `rabbit` or `kafka`");
 				System.exit(1);
 			}
-			while (true) {
-				Thread.sleep(100);
-				producer.produce();
+			int messages = 0;
+			while (messages < totalMessages) {
+				Thread.sleep(10);
+				producer.produce(byteSize);
+				messages++;
 			}
 		};
 	}
+
 }

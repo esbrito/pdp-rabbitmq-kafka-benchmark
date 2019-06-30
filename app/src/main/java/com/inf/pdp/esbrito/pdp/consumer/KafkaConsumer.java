@@ -1,20 +1,17 @@
 package com.inf.pdp.esbrito.pdp.consumer;
 
+import com.google.gson.Gson;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Component;
 
-@Component
-public class KafkaConsumer implements Consumer {
+public class KafkaConsumer extends BasicConsumer {
 
-    private long totalDelay;
-    private long totalMessages;
+    public KafkaConsumer(Gson parser) {
+        super(parser, "Kafka");
+    }
 
+    @Override
     @KafkaListener(topics = "benchmark", groupId = "group_id")
     public void consume(String msg) {
-        long delay = System.nanoTime() - Long.parseLong(msg);
-        System.out.println("Delay da mensagem eh de " + delay/1000.0 + " ms (Kafka)");
-        totalDelay = totalDelay + delay;
-        totalMessages++;
-        System.out.println("Delay medio eh de " + (totalDelay/totalMessages)/1000.0 + " ms (Kafka)" );
+        process(msg);
     }
 }
