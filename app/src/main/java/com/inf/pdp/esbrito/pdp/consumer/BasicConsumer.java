@@ -11,11 +11,14 @@ public abstract class BasicConsumer implements Consumer {
     private final AllConsumedLatch latch;
     private final Gson parser;
     private final String broker;
-    private AtomicLong totalDelay = new AtomicLong(0);
-    private AtomicLong totalMessages = new AtomicLong(0);
+    private final AtomicLong totalDelay;
+    private final AtomicLong totalMessages;
 
-    protected BasicConsumer(Gson parser, AllConsumedLatch latch, String broker) {
+    protected BasicConsumer(Gson parser, AtomicLong totalDelay, AtomicLong totalMessages,
+                            AllConsumedLatch latch, String broker) {
         this.parser = parser;
+        this.totalDelay = totalDelay;
+        this.totalMessages = totalMessages;
         this.latch = latch;
         this.broker = broker;
     }

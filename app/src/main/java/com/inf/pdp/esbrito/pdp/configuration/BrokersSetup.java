@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 @Configuration
 public class BrokersSetup {
 
@@ -34,32 +36,32 @@ public class BrokersSetup {
 
     @Bean
     public RabbitMQConsumer rabbitMQConsumer1() {
-        return new RabbitMQConsumer(parser, latch());
+        return new RabbitMQConsumer(parser, totalDelay(), totalMessages(), latch());
     }
 
     @Bean
     public RabbitMQConsumer rabbitMQConsumer2() {
-        return new RabbitMQConsumer(parser, latch());
+        return new RabbitMQConsumer(parser, totalDelay(), totalMessages(), latch());
     }
 
     @Bean
     public RabbitMQConsumer rabbitMQConsumer3() {
-        return new RabbitMQConsumer(parser, latch());
+        return new RabbitMQConsumer(parser, totalDelay(), totalMessages(), latch());
     }
 
     @Bean
     public KafkaConsumer kafkaConsumer1() {
-        return new KafkaConsumer(parser, latch());
+        return new KafkaConsumer(parser, totalDelay(), totalMessages(), latch());
     }
 
     @Bean
     public KafkaConsumer kafkaConsumer2() {
-        return new KafkaConsumer(parser, latch());
+        return new KafkaConsumer(parser, totalDelay(), totalMessages(), latch());
     }
 
     @Bean
     public KafkaConsumer kafkaConsumer3() {
-        return new KafkaConsumer(parser, latch());
+        return new KafkaConsumer(parser, totalDelay(), totalMessages(), latch());
     }
 
     @Bean
@@ -67,5 +69,14 @@ public class BrokersSetup {
         return new AllConsumedLatch();
     }
 
+    @Bean
+    public AtomicLong totalDelay() {
+        return new AtomicLong(0);
+    }
+
+    @Bean
+    public AtomicLong totalMessages() {
+        return new AtomicLong(0);
+    }
 
 }
