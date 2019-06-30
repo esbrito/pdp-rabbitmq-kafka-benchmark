@@ -3,5 +3,5 @@
 rabbitmq:
   image: rabbitmq:3.6-management
   ports:
-    - 15672:15672
-    - 5672:5672
+    - 14070:15672
+    - 1407:5672

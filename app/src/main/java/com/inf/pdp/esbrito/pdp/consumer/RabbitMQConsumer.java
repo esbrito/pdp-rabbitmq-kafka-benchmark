@@ -13,7 +13,7 @@ public class RabbitMQConsumer implements Consumer {
     @RabbitListener(queues="${pdp.rabbitmq.queue}")
     public void consume(String msg) {
         long delay = System.nanoTime() - Long.parseLong(msg);
-        System.out.println("Delay da mensagem eh de " + delay + " ms (RabbitMQ)");
+        System.out.println("Delay da mensagem eh de " + delay/1000.0 + " ms (RabbitMQ)");
         totalDelay = totalDelay + delay;
         totalMessages++;
         System.out.println("Delay medio eh de " + (totalDelay/totalMessages)/1000.0 + " ms (RabbitMQ)" );
