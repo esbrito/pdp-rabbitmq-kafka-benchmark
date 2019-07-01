@@ -28,6 +28,8 @@ public class PdpApplication {
 			String broker = args != null && args.length > 0 ? args[0] : "kafka";
 			int byteSize = args != null && args.length > 1 ? Integer.valueOf(args[1]) : 1024;
 			int totalMessages = args != null && args.length > 2 ? Integer.valueOf(args[2]) : 100000;
+			int waitTime = args != null && args.length > 3 ? Integer.valueOf(args[3]) : 10;
+
 			System.out.println(broker);
 			if (broker.equalsIgnoreCase("rabbit")) {
 				producer = ctx.getBean(RabbitMQProducer.class);
@@ -45,7 +47,7 @@ public class PdpApplication {
 			// Initializes time counter to see total time from producing to consume all messages
 			Long startTime = System.nanoTime();
 			while (messages < totalMessages) {
-				Thread.sleep(10);
+				Thread.sleep(waitTime);
 				producer.produce(byteSize);
 				messages++;
 			}
