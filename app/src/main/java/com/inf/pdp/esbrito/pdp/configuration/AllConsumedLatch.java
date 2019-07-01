@@ -5,12 +5,16 @@ import java.util.concurrent.CountDownLatch;
 public class AllConsumedLatch {
 
     private CountDownLatch latch;
+    private Long firstMessageTime;
 
     public void init(int size) {
         this.latch = new CountDownLatch(size);
     }
 
     public void countDown() {
+        if (firstMessageTime == null){
+            firstMessageTime = System.nanoTime();
+        }
         latch.countDown();
     }
 
@@ -18,4 +22,7 @@ public class AllConsumedLatch {
         latch.await();
     }
 
+    public Long firstConsumedMessageTime() {
+        return firstMessageTime;
+    }
 }

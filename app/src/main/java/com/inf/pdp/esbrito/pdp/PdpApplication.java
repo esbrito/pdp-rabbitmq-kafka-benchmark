@@ -51,11 +51,21 @@ public class PdpApplication {
 				producer.produce(byteSize);
 				messages++;
 			}
+			Long endTimeForMessageProduction = System.nanoTime();
+
 
 			// Awaits every message to be consumed
 			latch.await();
 			Long endTime = System.nanoTime();
 			System.out.println("Total time " + (endTime - startTime)/1000000.0 + " ms");
+			System.out.println("Total time for message production" +
+					(endTimeForMessageProduction - startTime)/1000000.0 + " ms");
+			System.out.println("Total time for message consumption" +
+					(endTime - latch.firstConsumedMessageTime())/1000000.0 + " ms");
+			System.out.println("Production rate" +
+					totalMessages/((endTimeForMessageProduction - startTime)/1000000000.0) + " messages/second");
+			System.out.println("Consumption rate" +
+					totalMessages/((endTime - latch.firstConsumedMessageTime())/1000000000.0) + " messages/second");
 			System.exit(0);
 		};
 	}
